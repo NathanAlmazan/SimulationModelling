@@ -15,7 +15,7 @@ function SupplierScrollbar(props) {
     const { order, orderBy, headLabel, rowCount, numSelected, onRequestSort, onSelectAllClick, suppliers, userNotFound, searchQuery, position } = props;
 
     return (
-        <Scrollbar sx={{ overflowY: 'auto', maxHeight: 600, minWidth: 800 }}>
+        <Scrollbar sx={{ overflowY: 'auto', maxHeight: 600 }}>
             <Table>
               <SupplierListHead
                 order={order}

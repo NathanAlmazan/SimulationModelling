@@ -15,7 +15,7 @@ function CustomerScrollbar(props) {
     const { order, orderBy, headLabel, rowCount, numSelected, onRequestSort, onSelectAllClick, customers, userNotFound, searchQuery, position } = props;
 
     return (
-        <Scrollbar sx={{ overflowY: 'auto', maxHeight: 600, minWidth: 800 }}>
+        <Scrollbar sx={{ overflowY: 'auto', maxHeight: 600 }}>
             <Table>
               <CustomerListHead
                 order={order}
