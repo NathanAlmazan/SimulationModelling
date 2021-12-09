@@ -69,12 +69,12 @@ export default function AppWebsiteVisits({ data, date, setDate }) {
     {
       name: 'Total Receivables',
       type: 'area',
-      data: salesValues
+      data: [1200, 5680, 2150, 872, 1966, 6120, 3921, 2745, 1906, 4892, 5430, 2500]
     },
     {
       name: 'Total Payables',
       type: 'line',
-      data: creditValues
+      data: [500, 100, 950, 100, 3100, 200, 340, 1560, 901, 560, 3000, 120]
     }
   ];
 
@@ -82,7 +82,20 @@ export default function AppWebsiteVisits({ data, date, setDate }) {
     stroke: { width: [2, 3] },
     plotOptions: { bar: { columnWidth: '11%', borderRadius: 4 } },
     fill: { type: ['gradient', 'solid'] },
-    labels: categories,
+    labels: [
+      "2021-11-07T00:00:00.000Z",
+      "2021-11-14T00:00:00.000Z",
+      "2021-11-21T00:00:00.000Z",
+      "2021-11-28T00:00:00.000Z",
+      "2021-12-05T00:00:00.000Z",
+      "2021-12-12T00:00:00.000Z",
+      "2021-12-19T00:00:00.000Z",
+      "2021-12-26T00:00:00.000Z",
+      "2022-01-02T00:00:00.000Z",
+      "2022-01-09T00:00:00.000Z",
+      "2022-01-16T00:00:00.000Z",
+      "2022-01-23T00:00:00.000Z"
+    ],
     xaxis: { type: 'datetime' },
     tooltip: {
       shared: true,
