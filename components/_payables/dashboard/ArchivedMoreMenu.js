@@ -127,21 +127,20 @@ export default function UserMoreMenu(props) {
         )}
 
         {purpose === "restore" && (
-            <>
             <MenuItem onClick={restoreOrder} sx={{ color: 'text.secondary' }}>
                 <ListItemIcon>
                     < RestorePageIcon />
                 </ListItemIcon>
                 <ListItemText primary="Restore" primaryTypographyProps={{ variant: 'body2' }} />
             </MenuItem>
-
+        )}
+        {purpose === "restore" && (
             <MenuItem onClick={deleteOrder} sx={{ color: 'text.secondary' }}>
                 <ListItemIcon>
                 < DeleteIcon />
                 </ListItemIcon>
                 <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
             </MenuItem>
-            </>
         )}
 
         <MenuItem onClick={e => onRouterClick(e, `/purchase/profile/${id}`)} sx={{ color: 'text.secondary' }}>

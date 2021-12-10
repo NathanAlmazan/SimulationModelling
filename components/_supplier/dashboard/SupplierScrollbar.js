@@ -16,7 +16,7 @@ function SupplierScrollbar(props) {
 
     return (
         <Scrollbar sx={{ overflowY: 'auto', maxHeight: 600 }}>
-            <Table>
+            <Table style={{ minWidth: 900 }}>
               <SupplierListHead
                 order={order}
                 orderBy={orderBy}

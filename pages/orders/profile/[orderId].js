@@ -6,6 +6,9 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -36,6 +39,7 @@ export default function UpdateOrder(props) {
         totalPrice: "",
         amount_due: ""
     });
+    const matches = useMediaQuery('(max-width:500px)');
 
     const ExecutivePosition = ["President", "Vice President", "Manager"];
     const AllowedPosition = ["President", "Vice President", "Manager", "Accountant", "Cashier"];
@@ -252,6 +256,7 @@ export default function UpdateOrder(props) {
                 <Typography variant="h4" gutterBottom>
                     Order Profile
                 </Typography>
+                {!matches ? (
                     <Stack direction="row" justifyContent="flex-end" spacing={2}>
                     {AllowedPosition.includes(currUser.position) && (
                         <Button
@@ -278,13 +283,43 @@ export default function UpdateOrder(props) {
                             variant="contained"
                             color="secondary"
                             onClick={() => restoreOrder()}
-                            startIcon={<ArchiveIcon />}
+                            startIcon={<UnarchiveIcon />}
                         >
                             Restore
                         </Button>
                     )}
                     </Stack>
-                
+                ) : (
+                    <Stack direction="row" justifyContent="flex-end" spacing={1}>
+                    {AllowedPosition.includes(currUser.position) && (
+                        <IconButton
+                            variant="contained"
+                            color="secondary"
+                            onClick={() =>  handleEdit()}
+                        >
+                           <EditIcon />
+                        </IconButton>
+                    )}
+                    {ExecutivePosition.includes(currUser.position) && currOrder.is_active === true && (
+                        <IconButton
+                            variant="contained"
+                            color="error"
+                            onClick={() => cancelOrder()}
+                        >
+                            <ArchiveIcon />
+                        </IconButton>
+                    )}
+                    {ExecutivePosition.includes(currUser.position) && currOrder.is_active !== true && (
+                        <IconButton
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => restoreOrder()}
+                        >
+                            <UnarchiveIcon />
+                        </IconButton>
+                    )}
+                    </Stack>
+                )}
             </Stack>
 
             <Stack direction="column" spacing={3}>

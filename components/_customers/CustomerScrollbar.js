@@ -16,7 +16,7 @@ function CustomerScrollbar(props) {
 
     return (
         <Scrollbar sx={{ overflowY: 'auto', maxHeight: 600 }}>
-            <Table>
+            <Table style={{ minWidth: 900 }}>
               <CustomerListHead
                 order={order}
                 orderBy={orderBy}

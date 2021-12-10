@@ -28,7 +28,6 @@ function CreateSupplier() {
             if (!ExecutivePosition.includes(session.position)) {
                 history.push("/401");
             }
-            setCurrUser(state => session);
         }
        
         authenticate();

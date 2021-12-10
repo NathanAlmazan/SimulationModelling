@@ -125,6 +125,7 @@ export default function ArchivedListTable(props) {
 
     return (
         <Card sx={{ p: 3 }}>
+          <Scrollbar>
             <EmployeeToolbar
                 filterName={filterObject} 
                 onFilterName={value => setFilterObject(value)}
@@ -133,9 +134,9 @@ export default function ArchivedListTable(props) {
                 changeYear={(event, value) => changeYear(event, value)}
                 year={year}
             />
-
+          </Scrollbar>
             <Scrollbar>
-                <Table>
+                <Table style={{ minWidth: 900 }}>
                     <CustomerListHead
                         order={order}
                         orderBy={orderBy}

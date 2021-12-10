@@ -334,6 +334,7 @@ export default function OrderListTable(props) {
 
     return (
         <Card>
+          <Scrollbar>
             <OrderListToolbar 
                 numSelected={0} 
                 filterName={filterObject} 
@@ -347,9 +348,10 @@ export default function OrderListTable(props) {
                 selected={selectedFilter}
                 setSelected={value => setSelectedFilter(value)}
             />
+          </Scrollbar>
 
             <Scrollbar>
-                <Table>
+                <Table style={{ minWidth: 1200 }}>
                     <OrderListHead 
                         order={order}
                         orderBy={orderBy}

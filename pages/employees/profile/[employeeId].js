@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { getSession } from 'next-auth/client';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import EditIcon from '@mui/icons-material/Edit';
 import { useRouter } from 'next/router';
 import API_CLIENT_SIDE from '../../../layouts/APIConfig';
@@ -26,6 +28,7 @@ export default function EmployeeProfile(props) {
     const [imageURL, setImageURL] = useState(employeeData.profile_image);
     const [errorDialog, setErrorDialog] = useState(null);
     const [salesReport, setSalesReport] = useState(employeeData.sales_report);
+    const matches = useMediaQuery('(max-width:500px)');
 
     const ExecutivePosition = ["President", "Vice President", "Manager"];
     const Personnel = ["Warehouse Staff", "Delivery Personnel"];
@@ -224,37 +227,68 @@ export default function EmployeeProfile(props) {
                     Employee Profile
                 </Typography>
                
-                <Stack direction="row" spacing={2}>
-                    <Button
+               {!matches ? (
+                    <Stack direction="row" spacing={2}>
+                        <Button
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => history.push("/employees/edit/" + employeeData.id)}
+                            startIcon={<EditIcon />}
+                        >
+                            Edit
+                        </Button>
+                    {ExecutivePosition.includes(currUser.position) && (
+                        !employeeData.is_active ? (
+                            <Button
+                                color="error"
+                                variant="contained"
+                                onClick={() => handleUnarchiveEmployee()}
+                                startIcon={<UnarchiveIcon />}
+                            >
+                                Unarchive
+                            </Button>
+                        ) : (
+                            <Button
+                                color="error"
+                                variant="contained"
+                                onClick={() => handleArchiveEmployee()}
+                                startIcon={<ArchiveIcon />}
+                            >
+                                Archive
+                            </Button>
+                        )
+                        )}
+                    </Stack>
+               ) : (
+                <Stack direction="row" spacing={1}>
+                    <IconButton
                         color="secondary"
                         variant="contained"
                         onClick={() => history.push("/employees/edit/" + employeeData.id)}
-                        startIcon={<EditIcon />}
                     >
-                        Edit
-                    </Button>
-                {ExecutivePosition.includes(currUser.position) && (
+                       <EditIcon />
+                    </IconButton>
+                    {ExecutivePosition.includes(currUser.position) && (
                     !employeeData.is_active ? (
-                        <Button
+                        <IconButton
                             color="error"
                             variant="contained"
                             onClick={() => handleUnarchiveEmployee()}
-                            startIcon={<UnarchiveIcon />}
                         >
-                            Unarchive
-                        </Button>
+                            <UnarchiveIcon />
+                        </IconButton>
                     ) : (
-                        <Button
+                        <IconButton
                             color="error"
                             variant="contained"
                             onClick={() => handleArchiveEmployee()}
-                            startIcon={<ArchiveIcon />}
                         >
-                            Archive
-                        </Button>
+                            <ArchiveIcon />
+                        </IconButton>
                     )
                     )}
                 </Stack>
+               )}
             </Stack>
         
             <Stack direction="column" spacing={3}>

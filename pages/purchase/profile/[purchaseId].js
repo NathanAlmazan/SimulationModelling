@@ -5,6 +5,9 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import IconButton from '@mui/material/IconButton';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -39,6 +42,7 @@ export default function UpdateOrder(props) {
         invoice_id: ""
     });
     const AuthorizedPosition = ["President", "Vice President", "Manager"];
+    const matches = useMediaQuery('(max-width:500px)');
 
     useEffect(() => {
         setOrderForm(orderData => ({ ...orderData, 
@@ -180,6 +184,32 @@ export default function UpdateOrder(props) {
         }
       }
 
+      const restoreOrder = async () => {
+        const baseURL = API_CLIENT_SIDE();
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `JWT ${currUser.access_token}`,
+            }
+          };
+        if (!currPurchase.delivered && currPurchase.payment_history.length === 0) {
+            try {
+                await axios.get(`${baseURL}/payables/restore/${currPurchase.id}`, config);
+                history.push("/purchase/canceled");
+          
+            } catch (err) {
+            const errResponse = err.response.data !== undefined ? err.response.data.error : null;
+                if (errResponse !== null) {
+                    setErrorDialog(`Restore Failed: ${errResponse}`);
+                } else {
+                    setErrorDialog(`Server Error: Server is probably down.`);
+                }
+            }
+        } else {
+            setErrorDialog(`Alert: This order is already delivered or paid.`);
+        }
+      }
+
     return (
         <Container>
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -187,24 +217,66 @@ export default function UpdateOrder(props) {
                     Purchased Profile
                 </Typography>
                 {AuthorizedPosition.includes(currUser.position) && (
-                <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() =>  handleEdit()}
-                        startIcon={<EditIcon />}
-                    >
-                        Update
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={cancelOrder}
-                        startIcon={<ArchiveIcon />}
-                    >
-                        Cancel
-                    </Button>
-                </Stack>
+                    !matches ? (
+                        <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>  handleEdit()}
+                                startIcon={<EditIcon />}
+                            >
+                                Update
+                            </Button>
+                            {!currPurchase.is_active ? (
+                                <Button
+                                variant="contained"
+                                color="error"
+                                onClick={restoreOrder}
+                                startIcon={<UnarchiveIcon />}
+                                >
+                                    Restore
+                                </Button>
+                            ) : (
+                                <Button
+                                variant="contained"
+                                color="error"
+                                onClick={cancelOrder}
+                                startIcon={<ArchiveIcon />}
+                                >
+                                    Cancel
+                                </Button>
+                            )}
+                            
+                        </Stack>
+                    ) : (
+                        <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                            <IconButton
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>  handleEdit()}
+                            >
+                                <EditIcon />
+                            </IconButton>
+                            {!currPurchase.is_active ? (
+                                <IconButton
+                                    variant="contained"
+                                    color="error"
+                                    onClick={restoreOrder}
+                                >
+                                   <UnarchiveIcon />
+                                </IconButton>
+                            ) : (
+                                <IconButton
+                                    variant="contained"
+                                    color="error"
+                                    onClick={cancelOrder}
+                                >
+                                    <ArchiveIcon />
+                                </IconButton>
+                            )}
+                            
+                        </Stack>
+                    )
                 )}
             </Stack>
 
@@ -325,6 +397,7 @@ export async function getServerSideProps(ctx) {
                     total_amount
                     terms
                     delivered
+                    is_active
                     inv_fileName
                     purchase_balance
                     purchased_products {

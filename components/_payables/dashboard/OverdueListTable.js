@@ -180,7 +180,7 @@ export default function OverdueListTable(props) {
             />
 
             <Scrollbar>
-                <Table>
+                <Table style={{ minWidth: 1200 }}>
                     <PurchasedListHead
                         order={order}
                         orderBy={orderBy}

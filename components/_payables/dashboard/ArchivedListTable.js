@@ -133,7 +133,7 @@ export default function ArchivedListTable(props) {
             />
 
             <Scrollbar>
-                <Table>
+                <Table style={{ minWidth: 900 }}>
                     <ArchivedListHead 
                         order={order}
                         orderBy={orderBy}

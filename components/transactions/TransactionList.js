@@ -207,15 +207,17 @@ export default function TransactionListTable(props) {
 
     return (
         <Card sx={{ p: 5 }}>
+          <Scrollbar>
             <TransactionToolbar
                 selectedDate={selectedDate}
                 selectedRange={selectedRange}
                 onDateChange={event => handleChangeDate(event)}
                 onRangeChange={event => setSelectedRange(event.target.value)}
             />
-
+          </Scrollbar>
+          
             <Scrollbar>
-                <Table>
+                <Table style={{ minWidth: 900 }}>
                     <TransactionListHead
                         order={order}
                         orderBy={orderBy}
