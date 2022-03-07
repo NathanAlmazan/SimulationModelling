@@ -204,7 +204,7 @@ export async function getServerSideProps(ctx) {
         }
       });
 
-    const allSuppliers = response.data.data;
+    const allSuppliers = response;
   
     return {
       props: { allSuppliers: allSuppliers, currUser: session }
