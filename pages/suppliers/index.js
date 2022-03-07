@@ -81,9 +81,11 @@ export default function Suppliers({ allSuppliers, currUser }) {
   }
 
   useEffect(() => {
-    const filteredCustomers = applySortFilter(allSuppliers, getComparator(order, orderBy), filterName);
-    setFilteredUsers(state => filteredCustomers);
-    setIssUserNotFound(state => filteredCustomers.length === 0);
+    if (allSuppliers) {
+      const filteredCustomers = applySortFilter(allSuppliers, getComparator(order, orderBy), filterName);
+      setFilteredUsers(state => filteredCustomers);
+      setIssUserNotFound(state => filteredCustomers.length === 0);
+    } 
 
   }, [filterName, allSuppliers, order, orderBy]);
 
