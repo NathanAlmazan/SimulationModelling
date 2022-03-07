@@ -76,8 +76,6 @@ export default function Suppliers({ allSuppliers, currUser }) {
   const [isUserNotFound, setIssUserNotFound] = useState(false);
   const history = useRouter();
 
-  console.log(allSuppliers);
-
   const onRouterClick = (e, path) => {
     history.push(path)
   }
@@ -204,9 +202,15 @@ export async function getServerSideProps(ctx) {
         }
       });
 
-    const allSuppliers = response;
+    const allSuppliers = response.data.data;
+  
+    if (!allSuppliers.allActiveSuppliers) {
+      return {
+        notFound: true,
+      }
+    }
   
     return {
-      props: { allSuppliers: allSuppliers, currUser: session }
+      props: { allSuppliers: allSuppliers.allActiveSuppliers, currUser: session }
     }
   }
