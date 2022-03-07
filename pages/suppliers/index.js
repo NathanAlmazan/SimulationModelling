@@ -76,16 +76,16 @@ export default function Suppliers({ allSuppliers, currUser }) {
   const [isUserNotFound, setIssUserNotFound] = useState(false);
   const history = useRouter();
 
+  console.log(allSuppliers);
+
   const onRouterClick = (e, path) => {
     history.push(path)
   }
 
   useEffect(() => {
-    if (allSuppliers) {
-      const filteredCustomers = applySortFilter(allSuppliers, getComparator(order, orderBy), filterName);
-      setFilteredUsers(state => filteredCustomers);
-      setIssUserNotFound(state => filteredCustomers.length === 0);
-    } 
+    const filteredCustomers = applySortFilter(allSuppliers, getComparator(order, orderBy), filterName);
+    setFilteredUsers(state => filteredCustomers);
+    setIssUserNotFound(state => filteredCustomers.length === 0);
 
   }, [filterName, allSuppliers, order, orderBy]);
 
@@ -207,6 +207,6 @@ export async function getServerSideProps(ctx) {
     const allSuppliers = response.data.data;
   
     return {
-      props: { allSuppliers: allSuppliers.allActiveSuppliers, currUser: session }
+      props: { allSuppliers: allSuppliers, currUser: session }
     }
   }
