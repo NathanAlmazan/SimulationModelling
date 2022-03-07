@@ -204,12 +204,6 @@ export async function getServerSideProps(ctx) {
 
     const allSuppliers = response.data.data;
   
-    if (!allSuppliers.allActiveSuppliers) {
-      return {
-        notFound: true,
-      }
-    }
-  
     return {
       props: { allSuppliers: allSuppliers.allActiveSuppliers, currUser: session }
     }
