@@ -52,7 +52,7 @@ export default function ShopProductCard({ product, handleUnarchived }) {
           </Button>
         <ProductImgStyle 
           alt={name} 
-          src={!image_name ? baseURL + "/product/images/defaultProduct.jpg" : baseURL + "/product/images/" + image_name}  
+          src={!image_name ? baseURL + "/product/images/defaultProduct.jpg" : image_name}  
         />
       </Box>
 
