@@ -1,3 +1,3 @@
 export default function API_CLIENT_SIDE() {
-    return "https://baylor-system.herokuapp.com"
+    return "http://34.72.65.225"
 }
